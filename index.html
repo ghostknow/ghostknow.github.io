@@ -1,10 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>你好，GitHub</title>
-  </head>
-  <body>
-    <h1>覺得厲害</h1>
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <title>M3U8 Player</title>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://unpkg.com/popper.js@1.12.3"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="home.css">
+        <script type="text/javascript" src="main.js"></script>
+    </head>
+    <body>
+        <div class="col-lg-6" id="text-box">
+            <h1 class="page-name">M3U8 Player</h1>
+           
+			<div class="input-group">
+			<table>
+				<tr>
+					<td width="100">
+						<button style="height:100px;width:100px" class="btn btn-primary" type="button" id="play-btn" onclick="openFanTV()">香港開電視</button>
+					</td>
+					<td>
+						<button style="height:100px;width:100px" class="btn btn-primary" type="button" id="play-btn" onclick="openRTHK31()">香港電台31</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button style="height:100px;width:100px" class="btn btn-primary" type="button" id="play-btn" onclick="openRTHK32()">香港電台32</button>
+					</td>
+					<td>
+						<button style="height:100px;width:100px" class="btn btn-primary" type="button" id="play-btn" onclick="openFanTV()">香港開電視</button>
+					</td>
+				</tr>
+			</table>
+			</div>
+        </div>
+		
+		<script>
+			function openFanTV() {
+			  window.location.href = './player' + '#' + 'http://media.fantv.hk/m3u8/archive/channel2.m3u8';
+			}
+			function openRTHK31() {
+			  window.location.href = './player' + '#' + 'https://rthklive1-lh.akamaihd.net/i/rthk31_1@167495/index_2052_av-b.m3u8';
+			}
+			function openRTHK32() {
+			  window.location.href = './player' + '#' + 'https://rthklive2-lh.akamaihd.net/i/rthk32_1@168450/index_2052_av-b.m3u8';
+			}
+		</script>
+    </body>
 </html>
