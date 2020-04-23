@@ -16,12 +16,18 @@
 </head>
 
 <body>
+
     <p id="demo"></p>
 
     <script>
-        if (window.location.hostname + window.location.pathname == 'hk-er.com/r/') { location.replace("http://urbtix.hk") }
-        document.getElementById("demo").innerHTML =
-            "The page url is1111: " + window.location.hostname + window.location.pathname;
+       // if (window.location.hostname + window.location.pathname == 'hk-er.com/r/') { location.replace("http://urbtix.hk") }
+        <?php
+if (isset($_GET['email'])) {
+    echo $_GET['email'];
+    document.getElementById("demo").innerHTML =
+    "The page url is 222: " + $_GET['email'];
+}?>
+      
     </script>
 
     </iframe>
