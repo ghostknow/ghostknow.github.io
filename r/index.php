@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html>
+<body>
+<?php
+if (isset($_GET['d'])) {
+    //echo $_GET['d'];
 
+    <script>
+        document.getElementById("demo").innerHTML =
+            "https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/" + $_GET['d']);
+            //"https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV" + ((window.location.hostname + window.location.pathname).replace('D:/GitHub/ghostknow.github.io/r/', ''));
+            //"The page url is: " + window.location.hostname + window.location.pathname;
+    </script>
+}?>
+</body>
+</html>
+
+
+<!--!>
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coming Soon</title>
@@ -31,5 +47,3 @@
 
     </iframe>
 </body>
-
-</html>
