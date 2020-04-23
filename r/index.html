@@ -20,11 +20,12 @@
 
     <script>
         if (window.location.hostname + window.location.pathname.includes('hk-er.com/r/')) {
-            location.replace("https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/" + ((window.location.hostname + window.location.pathname).replace("hk-er.com/r/", "")))
+            //location.replace("https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/" + ((window.location.hostname + window.location.pathname).replace("hk-er.com/r/", "")))
             //location.replace("https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/")
         }
         document.getElementById("demo").innerHTML =
-            "The page url is: " + window.location.hostname + window.location.pathname;
+            "https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/" + ((window.location.hostname + window.location.pathname).replace("hk-er.com/r/", ""));
+            //"The page url is: " + window.location.hostname + window.location.pathname;
     </script>
 
     </iframe>
