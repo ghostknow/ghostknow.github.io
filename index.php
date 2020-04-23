@@ -25,7 +25,6 @@
             "The page url is 222: " + window.location.hostname + window.location.pathname;
     </script>
 
-    </iframe>
 </body>
 
 </html>
