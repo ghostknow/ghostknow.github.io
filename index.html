@@ -11,10 +11,12 @@
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
         //alert(getParameterByName('d'));
-        if (getParameterByName('d').length > 0) {
-            window.location.href = 'https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/' + getParameterByName('d');
+        //if (getParameterByName('d').length > 0) {
+        if (window.location.hash.replace('#', '').length > 0)
+            window.location.href = 'https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/' + window.location.hash.replace('#', '');
+            //window.location.href = 'https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/' + getParameterByName('d');
             //window.open('https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/' + getParameterByName('d'));
-        }
+        //}
     </script>
 </body>
 
