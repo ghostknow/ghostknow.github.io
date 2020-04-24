@@ -10,7 +10,8 @@
                 results = regex.exec(location.search);
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-        alert(getParameterByName('d'));
+        //alert(getParameterByName('d'));
+        window.open('https://filedn.com/lGQxqDqSgANYGgE8J2NgzIV/' + getParameterByName('d'), '_blank');
     </script>
 </body>
 
