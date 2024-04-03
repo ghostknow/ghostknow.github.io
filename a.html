@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>播放列表</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        #playlist {
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: #fff;
+            background-color: #007bff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .item:hover {
+            background-color: #0069d9;
+        }
+
+        .item.active {
+            background-color: #0062cc;
+        }
+
+        .item-text {
+            flex: 1;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .item.active .item-text {
+            color: #fff;
+        }
+
+        .item.active {
+            background-color: #ccc;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="subTitle">
+        <h1>播放列表</h1>
+    </div>
+
+    <div id="loading">
+        <img src="https://cdn.lihkg.com/assets/faces/dog/run.gif" alt="載入中...">
+    </div>
+
+    <div id="playlist"></div>
+
+    <script>
+        const url = new URL(window.location.href);
+        const searchParams = new URLSearchParams(url.search);
+        const targetId = searchParams.get('id');
+        let dataArr = [];
+
+        fetch('https://storage.hoy.tv/v1/category/drama.json')
+            .then(response => response.json())
+            .then(({ data }) => {
+                dataArr = [];
+
+
+                fetch(`https://api2.hoy.tv/api/v2/a/title/${targetId}/episode/from/1/action/reverse`)
+                    .then(response => response.json())
+                    .then(({ data }) => {
+                        const { episodes } = data.series;
+                        const promises = episodes.map((item) => {
+                            const targetNumber = item.no;
+                            const targetVideoId = item.videos[0].id;
+                            return fetch(`https://api2.hoy.tv/api/v2/a/videoCheckout/${targetId}/${targetNumber}/${targetVideoId}`)
+                                .then(response => response.json())
+                                .then(({ data }) => {
+                                    const { link } = data.video;
+                                    const title = data.name.zh_hk;
+                                    return { title, videoContent: link };
+                                })
+                                .catch(error => console.error(error));
+                        });
+
+                        Promise.all(promises)
+                            .then(results => {
+                                dataArr = results;
+                                console.log("dataArrr", dataArr);
+                                const subTitleDiv = document.getElementById('subTitle')
+                                const playlistDiv = document.getElementById("playlist");
+                                const loadingDiv = document.getElementById("loading");
+
+                                const apiUrl = "https://api.hoy.tv/";
+                                const headers = {
+                                    'Content-Type': 'application/json',
+                                    'User-Agent': 'opentvapp/1 CFNetwork/1406.0.4 Darwin/22.4.0',
+                                }
+
+                                const requestBody = {
+                                    "query": "query getProgram($id: ID!) {\n  tvShow(id: $id) {\n    id\n    title\n    plainContent\n    databaseId\n    seasons {\n      title\n      episodes\n    }\n  }\n}\n",
+                                    "variables": {
+                                        "id": "cG9zdDoyMjI5OA=="
+                                    },
+                                    "operationName": "getProgram"
+                                };
+
+                                loadingDiv.style.display = "flex";
+
+                                const initView = (data) => {
+                                    const episodes =
+                                        dataArr;
+                                    loadingDiv.style.display = "none";
+                                    playlistDiv.style.display = "block";
+                                    episodes.forEach(function (episode, index) {
+                                        const itemDiv = document.createElement("div");
+                                        itemDiv.classList.add("item");
+                                        itemDiv.innerHTML = `
+            <div class="item-text">${episode?.episodeIndexDisplay ?? episode?.title}</div>
+            <a class="item-link" href="${episode?.videoContent ?? episode?.url}" target="_blank"></a>
+          `;
+                                        itemDiv.addEventListener("click", function () {
+                                            const activeItem = document.querySelector(".item.active");
+                                            if (activeItem) {
+                                                activeItem.classList.remove("active");
+                                            }
+                                            itemDiv.classList.add("active");
+                                            localStorage.setItem("activeItem", index);
+                                            const itemLink = itemDiv.querySelector(".item-link");
+                                            itemLink.click();
+                                        });
+
+                                        playlistDiv.appendChild(itemDiv);
+                                    });
+
+                                    loadingDiv.style.display = "none";
+                                    playlistDiv.style.display = "block";
+
+                                    const activeItemIndex = localStorage.getItem("activeItem");
+                                    if (activeItemIndex !== null) {
+                                        const activeItem = document.querySelectorAll(".item")[activeItemIndex];
+                                        if (activeItem) {
+                                            activeItem.classList.add("active");
+                                        }
+                                    }
+                                }
+                                initView()
+                            })
+                            .catch(error => console.error(error));
+                    })
+                    .catch(error => console.error(error));
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+
+</html>
